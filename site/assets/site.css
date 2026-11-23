@@ -1,0 +1,177 @@
+/* Calluna landing page — one stylesheet for all three languages.
+   Colours: Moor cultivar from ShoppingApp/docs/design-tokens.md (§1.1–1.3).
+   Rule from the app: primary is a fill, never a text colour. */
+
+:root {
+  color-scheme: light dark;
+
+  /* Light (Moor) */
+  --bg: #F5F3EC;            /* cultivar background */
+  --surface: #ECE7DA;       /* cultivar surface */
+  --ink: #1C1B1F;           /* onBackground / onSurface */
+  --ink-muted: #595758;     /* onSurface at ~72 % on bg (inferred); 6.5:1 on bg, 5.8:1 on surface */
+  --outline: #CEC9BD;       /* outlineVariant: surface -> shade 16 % */
+  --primary: #2E3A30;       /* fill only */
+  --on-primary: #D89B45;    /* cultivar secondary; 4.9:1 on primary */
+  --on-primary-body: #F5F3EC; /* body text on primary; 10.7:1 */
+  --slot: rgb(255 255 255 / 0.06);
+
+  --r-m: 14px;
+  --r-l: 20px;
+  --r-xl: 28px;
+  --wrap: 1120px;
+  --gutter: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1C1B1F;
+    --surface: #2B2930;
+    --ink: #E6E1E5;
+    --ink-muted: #ADAAAE;   /* 7.5:1 on bg, 6.3:1 on surface */
+    --outline: #49454F;
+    /* The app's dark primary (#1F2A22) is 1.15:1 against #1C1B1F and disappears on a page.
+       Use Moor's light primary instead: 1.44:1 against the page, amber 4.9:1, body ink 9.2:1. */
+    --primary: #2E3A30;
+    --on-primary: #D89B45;
+    --on-primary-body: #E6E1E5;
+  }
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+h1, h2, p, ul, figure { margin: 0; }
+h1, h2 { text-wrap: balance; }
+p, li { text-wrap: pretty; }
+img { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration-color: var(--on-primary); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 3px; }
+:focus-visible { outline: 3px solid var(--on-primary); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
+.narrow { max-width: calc(42rem + 2 * var(--gutter)); }
+
+/* ---------- Screenshot slots ----------
+   Frames have a fixed aspect ratio so the layout doesn't move when the files arrive. */
+.shot { overflow: hidden; background: var(--slot); }
+.shot img { width: 100%; height: 100%; object-fit: cover; }
+.shot-hero { aspect-ratio: 1 / 1; border-radius: var(--r-xl); width: 100%; max-width: 440px; margin-inline: auto; }
+.shot-phone {
+  aspect-ratio: 9 / 20;
+  width: 100%;
+  max-width: 240px;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--outline);
+  background: var(--surface);
+}
+
+/* ---------- Header + hero (one green block) ---------- */
+.top, .hero { background: var(--primary); color: var(--on-primary-body); }
+
+.top-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 64px;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--on-primary); font-weight: 700; font-size: 1.125rem; text-decoration: none;
+}
+.brand img { width: 32px; height: 32px; border-radius: 8px; }
+.langs { display: flex; gap: 4px; font-size: 0.9375rem; }
+.langs a {
+  color: var(--on-primary-body); text-decoration: none;
+  padding: 12px 8px; min-height: 48px; display: inline-flex; align-items: center;
+}
+.langs a:hover { text-decoration: underline; text-decoration-color: var(--on-primary); }
+.langs a[aria-current="page"] { color: var(--on-primary); font-weight: 600; }
+
+.hero { padding-block: 32px 56px; border-radius: 0 0 var(--r-xl) var(--r-xl); }
+.hero-grid { display: grid; gap: 40px; align-items: center; }
+.hero h1 {
+  color: var(--on-primary);
+  font-size: clamp(2.25rem, 1.6rem + 3.2vw, 3.75rem);
+  line-height: 1.08; font-weight: 700; letter-spacing: -0.02em;
+}
+.lede { margin-top: 16px; font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem); line-height: 1.45; max-width: 30ch; }
+
+/* Google Play badge slot: height fixed, width follows the official badge. */
+.play { display: inline-block; margin-top: 32px; min-height: 56px; color: var(--on-primary); }
+.play img { height: 56px; width: auto; }
+
+/* ---------- Sections ---------- */
+.section { padding-block: 64px; }
+.section-surface { background: var(--surface); }
+
+/* Section headings (every section except the hero) */
+.section-title {
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  line-height: 1.2; font-weight: 700; letter-spacing: -0.01em;
+  margin-bottom: 24px;
+}
+#how .section-title { text-align: center; margin-bottom: 40px; }
+.press-row .section-title { grid-column: 1 / -1; margin-bottom: 0; }
+
+/* How it works */
+.features { list-style: none; padding: 0; display: grid; gap: 56px; }
+.feature { display: grid; gap: 24px; justify-items: center; text-align: center; }
+.feature h3 { font-size: 1.375rem; line-height: 1.27; font-weight: 600; }
+.feature p { margin-top: 8px; color: var(--ink-muted); max-width: 32ch; margin-inline: auto; font-size: 1.0625rem; }
+
+/* Why */
+.story { font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem); line-height: 1.6; }
+
+/* Invite */
+.invite-card {
+  border: 1px solid var(--outline); border-radius: var(--r-l);
+  padding: 24px; font-size: 1.125rem; line-height: 1.55;
+}
+
+/* Privacy */
+.facts { list-style: none; padding: 0; display: grid; gap: 16px; font-size: 1.0625rem; }
+.facts li { position: relative; padding-left: 28px; }
+.facts li::before {
+  content: ""; position: absolute; left: 4px; top: 0.6em;
+  width: 10px; height: 10px; border-radius: 50%; background: var(--on-primary);
+}
+.policy { margin-top: 24px; font-weight: 600; }
+
+/* Press */
+.press-row { display: grid; gap: 20px; align-items: start; }
+.press-icon { width: 96px; height: 96px; border-radius: 22px; }
+.press-row p + p { margin-top: 12px; color: var(--ink-muted); }
+
+/* Footer */
+.foot { background: var(--primary); color: var(--on-primary-body); padding-block: 32px; font-size: 0.9375rem; }
+.foot .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
+.foot a { padding-block: 12px; }
+.foot-item { white-space: nowrap; }
+.sep { color: var(--on-primary); }
+
+/* ---------- Wider screens ---------- */
+@media (min-width: 600px) {
+  :root { --gutter: 24px; }
+  .invite-card { padding: 32px 40px; }
+  .press-row { grid-template-columns: auto 1fr; gap: 28px; }
+}
+
+@media (min-width: 900px) {
+  .hero { padding-block: 48px 88px; }
+  .hero-grid { grid-template-columns: 1.1fr 0.9fr; gap: 56px; }
+  .section { padding-block: 96px; }
+  /* Subgrid: the three text blocks share one row height, so the phone frames line up. */
+  .features { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto; column-gap: 40px; row-gap: 32px; }
+  .feature { grid-row: span 2; grid-template-rows: subgrid; align-items: start; }
+}

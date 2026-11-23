@@ -1,0 +1,32 @@
+# calluna-site
+
+Landing page for Calluna (Android shared shopping list), served at https://callunalist.app.
+
+## Rules
+
+- **Static site, no build step.** Everything that is served lives in `site/`: plain HTML + one
+  stylesheet (`site/assets/site.css`). `netlify.toml` stays at the repo root: no build command,
+  `publish = "site"`. Nothing outside `site/` is served or referenced by the pages.
+- **No cookies, no analytics, no trackers.** No external fonts, scripts, stylesheets or CDNs. No
+  JavaScript at all: the CSP in `netlify.toml` sets `script-src 'none'`. No inline `<style>` or
+  `style=""` either (`style-src 'self'`).
+- **Only these external destinations:** `play.google.com`, `techtrest.github.io`, `mailto:`. Absolute
+  `https://callunalist.app/...` URLs are allowed only where the format requires them (canonical,
+  hreflang, og:url, og:image).
+- **Three languages, same sections in the same order:** EN at `/` (`site/index.html`), DE at `/de/`,
+  PL at `/pl/`. Every section except the hero has a visible `<h2>`. A change to one page's
+  structure is made in all three.
+- **PL text has been reviewed by the Polish reviewer.** Any future PL change goes to the Polish
+  reviewer before it ships. Never mention the review on the page.
+- **No personal names** in any file in the repo (`scripts/check.py` enforces it).
+- **Copy changes come from the Calluna project chat.** Don't write or "improve" page text here; use
+  the copy you're given verbatim. "Calluna by Techtrest" is the same in all languages.
+- **Design** follows `~/Documents/ShoppingApp/docs/design-tokens.md` (Moor cultivar, light + dark via
+  `prefers-color-scheme`). `primary` is a fill, never a text colour. System font stack only.
+- **Open slots** (files that will come later) are marked with `data-slot` in the HTML and listed in
+  `SLOTS` in `scripts/check.py` and in `README.md`. When a file lands, keep the path and remove the
+  path from `SLOTS`.
+
+## Before committing
+
+Run `python3 scripts/check.py`. It must pass.

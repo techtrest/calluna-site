@@ -1,0 +1,12 @@
+# Static site: no build step. Netlify publishes site/ as-is; nothing outside it is served.
+[build]
+  publish = "site"
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+    Referrer-Policy = "no-referrer"
+    X-Content-Type-Options = "nosniff"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
