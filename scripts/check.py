@@ -41,8 +41,11 @@ SLOTS = {
     "/assets/og/calluna-og.png",
     "/press/calluna-press-kit.zip",
     *(f"/assets/badges/google-play-{l}.png" for l in PAGES),
-    *(f"/assets/screens/{l}/{s}.png" for l in PAGES for s in ("hero", "sync", "add", "shops")),
 }
+
+# Images under site/ must stay small (the screenshots are WebP, ~20-40 KB each).
+MAX_IMAGE_KB = 250
+IMAGE_EXT = {".webp", ".png", ".jpg", ".jpeg", ".avif", ".gif", ".svg"}
 
 # Personal names that must not appear in any tracked file. Spelled in pieces so this file doesn't
 # trip its own check (and so `git grep` for them stays empty).
@@ -279,6 +282,10 @@ def main():
     # No stray JS files in the publish dir
     for js in SITE.rglob("*.js"):
         err(str(js.relative_to(ROOT)), "JavaScript files are not allowed")
+
+    for img in SITE.rglob("*"):
+        if img.suffix.lower() in IMAGE_EXT and img.stat().st_size > MAX_IMAGE_KB * 1024:
+            err(str(img.relative_to(ROOT)), f"{img.stat().st_size // 1024} KB, over {MAX_IMAGE_KB} KB")
 
     # 7. No personal names in any tracked file (text or binary metadata).
     try:
