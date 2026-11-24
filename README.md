@@ -63,9 +63,8 @@ lower the count.
 
 | Language | Where | String | Reviewer |
 |---|---|---|---|
-| DE | Privacy, group label and items | "Gestrichen" · "Werbung" · "Analyse-Tools" · "Tracking-Tools" | the developer |
-| DE | Shop bar alt text | "Die Shop-Leiste unten in der App, Supermarkt ausgewählt" | the developer |
 | PL | Privacy, group label and items | "Skreślone" · "Reklamy" · "Analityka" · "Narzędzia śledzące" | the Polish reviewer |
+| PL | First how-it-works row, alt text (shortened) | "Wspólna lista zakupów w Callunie: osiem produktów" | the Polish reviewer |
 | PL | Shop bar alt text | "Pasek sklepów na dole aplikacji, wybrany Supermarket" | the Polish reviewer |
 
 ## Design
@@ -87,8 +86,8 @@ The font is Hanken Grotesk (400/500/600/700), self-hosted in `site/assets/fonts/
 | `sync.webp`, `add.webp`, `shops.webp` | 720 × 1000 | Top 1500 px of each shot | The three how-it-works rows, in that order |
 | `shop-bar.webp` | 740 × 148 | `shops.png`, x 170–910, y 2172–2320 | The enlarged shop bar in row 3 |
 
-The alt texts are final copy from the Calluna project chat, except the shop bar's in DE and PL (see
-"Open reviews"); change them only if the new image shows something different. `check.py` fails on
+The alt texts are final copy from the Calluna project chat, except the PL ones listed under "Open
+reviews"; change them only if the new image shows something different. `check.py` fails on
 any image in `site/` over 250 KB.
 
 The app icon (`site/assets/icons/calluna-512.png` and its 180/64/32 px versions) comes from

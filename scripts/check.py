@@ -47,7 +47,7 @@ SLOTS = {
 
 # Open reviews: number of "draft, needs review" comments per page. Lower the count when a string has
 # been reviewed and its comment is gone (and update "Open reviews" in README.md).
-REVIEWS = {"en": 0, "de": 2, "pl": 2}
+REVIEWS = {"en": 0, "de": 0, "pl": 3}
 DRAFT_MARK = "draft, needs review"
 
 # Images under site/ must stay small (the screenshots are WebP, ~20-40 KB each).
