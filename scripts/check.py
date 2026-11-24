@@ -15,7 +15,8 @@ Checks:
      (in the HTML or in the CSS).
   5. Nothing outside site/ (the Netlify publish dir) is referenced by the pages or the CSS.
   6. Every section except the hero has its own <h2>.
-  7. No personal names in any tracked file.
+  7. No personal names in any tracked file. One exception: the developer's first name (VISIBLE_NAME)
+     in the visible body text of the pages in VISIBLE_NAME_PAGES, never in their markup.
 Plus: hreflang set complete on every page; no page carries a draft mark (in a comment or in the
 visible text); CSP header present in netlify.toml.
 
@@ -51,6 +52,9 @@ IMAGE_EXT = {".webp", ".png", ".jpg", ".jpeg", ".avif", ".gif", ".svg"}
 # trip its own check (and so `git grep` for them stays empty).
 NAMES = ["Mon" + "ika", "Oli" + "ver"]
 NAMES_RE = re.compile("|".join(NAMES), re.I)
+# Allowed in the visible text of these two pages only: the story there is told in the first person.
+VISIBLE_NAME = NAMES[1]
+VISIBLE_NAME_PAGES = {SITE / PAGES["en"], SITE / PAGES["de"]}
 
 URL_ATTRS = {"href", "src", "srcset", "poster", "action", "data", "formaction"}
 URL_META = {"og:image", "og:url", "og:image:url", "og:image:secure_url", "twitter:image"}
@@ -296,9 +300,16 @@ def main():
         files = [f for f in ROOT.rglob("*") if f.is_file() and ".git" not in f.parts]
     for f in files:
         if f.is_file():
-            m = NAMES_RE.search(f.read_bytes().decode("latin-1"))
-            if m:
-                err(str(f.relative_to(ROOT)), f"contains a personal name: {m.group(0)}")
+            found = NAMES_RE.findall(f.read_bytes().decode("latin-1"))
+            if f in VISIBLE_NAME_PAGES:
+                # Drop one match per visible occurrence; comments, attributes and <head> stay caught.
+                page = Page()
+                page.feed(f.read_text(encoding="utf-8"))
+                for _ in range(" ".join(page.text).count(VISIBLE_NAME)):
+                    if VISIBLE_NAME in found:
+                        found.remove(VISIBLE_NAME)
+            if found:
+                err(str(f.relative_to(ROOT)), f"contains a personal name: {found[0]}")
 
     # Netlify headers
     toml = (ROOT / "netlify.toml").read_text(encoding="utf-8")
