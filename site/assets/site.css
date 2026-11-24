@@ -1,41 +1,40 @@
-/* Calluna landing page — one stylesheet for all three languages.
-   Colours: Moor cultivar from ShoppingApp/docs/design-tokens.md (§1.1–1.3).
-   Rule from the app: primary is a fill, never a text colour. */
+/* Calluna landing page: one stylesheet for all three languages.
+   Design: "heath at low sun", see design/DESIGN.md. One fixed look from day (top) to night (bottom),
+   no dark mode. Amber is a text colour on the dark grounds only, never on a light one. */
+
+@font-face { font-family: "Hanken Grotesk"; font-weight: 400; font-display: swap; src: url("/assets/fonts/hanken-grotesk-regular.ttf") format("truetype"); }
+@font-face { font-family: "Hanken Grotesk"; font-weight: 500; font-display: swap; src: url("/assets/fonts/hanken-grotesk-medium.ttf") format("truetype"); }
+@font-face { font-family: "Hanken Grotesk"; font-weight: 600; font-display: swap; src: url("/assets/fonts/hanken-grotesk-semibold.ttf") format("truetype"); }
+@font-face { font-family: "Hanken Grotesk"; font-weight: 700; font-display: swap; src: url("/assets/fonts/hanken-grotesk-bold.ttf") format("truetype"); }
 
 :root {
-  color-scheme: light dark;
+  color-scheme: only light;
 
-  /* Light (Moor) */
-  --bg: #F5F3EC;            /* cultivar background */
-  --surface: #ECE7DA;       /* cultivar surface */
-  --ink: #1C1B1F;           /* onBackground / onSurface */
-  --ink-muted: #595758;     /* onSurface at ~72 % on bg (inferred); 6.5:1 on bg, 5.8:1 on surface */
-  --outline: #CEC9BD;       /* outlineVariant: surface -> shade 16 % */
-  --primary: #2E3A30;       /* fill only */
-  --on-primary: #D89B45;    /* cultivar secondary; 4.9:1 on primary */
-  --on-primary-body: #F5F3EC; /* body text on primary; 10.7:1 */
-  --slot: rgb(255 255 255 / 0.06);
+  --sky: #FBEBC8;
+  --page: #F5F3EC;
+  --surface: #ECE7DA;
+  --item-done: #E2DED1;
+  --ink: #1C1B1F;
+  --ground: #2E3A30;
+  --amber: #D89B45;         /* sun, underlines; text only on --ground and --night */
+  --on-ground: #F5F3EC;
+  --night: #1C1B1F;
+  --on-night: #E6E1E5;
+  --night-line: #3A383F;
 
-  --r-m: 14px;
-  --r-l: 20px;
-  --r-xl: 28px;
-  --wrap: 1120px;
-  --gutter: 16px;
-}
+  /* Landscape only */
+  --hill-far: #9AAA86;
+  --hill-mid: #4F6B55;
+  --tree: #1F2A22;
+  --heather: #A85E7C;
+  --hill-night: #26302A;
+  --tree-night: #141813;
+  --moon: #F0D9A3;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1C1B1F;
-    --surface: #2B2930;
-    --ink: #E6E1E5;
-    --ink-muted: #ADAAAE;   /* 7.5:1 on bg, 6.3:1 on surface */
-    --outline: #49454F;
-    /* The app's dark primary (#1F2A22) is 1.15:1 against #1C1B1F and disappears on a page.
-       Use Moor's light primary instead: 1.44:1 against the page, amber 4.9:1, body ink 9.2:1. */
-    --primary: #2E3A30;
-    --on-primary: #D89B45;
-    --on-primary-body: #E6E1E5;
-  }
+  --gutter: 20px;
+  /* Landscape height; grows with the page so wide screens keep the sun and the tree in view. */
+  --land-h: 240px;
+  --night-h: 135px;
 }
 
 /* ---------- Base ---------- */
@@ -45,73 +44,49 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--page);
   color: var(--ink);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1rem;
+  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 1.0625rem;
   line-height: 1.5;
 }
 
-h1, h2, p, ul, figure { margin: 0; }
-h1, h2 { text-wrap: balance; }
+h1, h2, h3, p, ul, figure { margin: 0; }
+h2, h3 { text-wrap: balance; }
 p, li { text-wrap: pretty; }
-img { display: block; max-width: 100%; }
+ul { list-style: none; padding: 0; }
+img { display: block; max-width: 100%; height: auto; }
 
-a { color: inherit; text-decoration-color: var(--on-primary); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a { color: inherit; text-decoration-color: var(--amber); text-decoration-thickness: 2px; text-underline-offset: 4px; }
 a:hover { text-decoration-thickness: 3px; }
-:focus-visible { outline: 3px solid var(--on-primary); outline-offset: 3px; border-radius: 4px; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; border-radius: 4px; }
 
-.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
-.narrow { max-width: calc(42rem + 2 * var(--gutter)); }
+.wrap { width: 100%; max-width: calc(1080px + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
+.top .wrap, .hero .wrap { max-width: 1200px; }
 
-/* ---------- Screenshot slots ----------
-   Frames have a fixed aspect ratio so the layout doesn't move when the files arrive. */
-.shot { overflow: hidden; background: var(--slot); }
-.shot img { width: 100%; height: 100%; object-fit: cover; }
-.shot-hero { aspect-ratio: 1 / 1; border-radius: var(--r-xl); width: 100%; max-width: 440px; margin-inline: auto; }
-.shot-phone {
-  aspect-ratio: 9 / 20;
-  width: 100%;
-  max-width: 240px;
-  border-radius: var(--r-xl);
-  border: 1px solid var(--outline);
-  background: var(--surface);
-}
+/* ---------- Sky: nav + hero ---------- */
+.top, .hero { background: var(--sky); }
 
-/* ---------- Header + hero (one green block) ---------- */
-.top, .hero { background: var(--primary); color: var(--on-primary-body); }
-
-.top-row {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  min-height: 64px;
-}
-.brand {
-  display: inline-flex; align-items: center; gap: 10px;
-  color: var(--on-primary); font-weight: 700; font-size: 1.125rem; text-decoration: none;
-}
+.top-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 16px; padding-block: 12px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; font-weight: 700; font-size: 1.375rem; text-decoration: none; }
 .brand img { width: 32px; height: 32px; border-radius: 8px; }
-.langs { display: flex; gap: 4px; font-size: 0.9375rem; }
-.langs a {
-  color: var(--on-primary-body); text-decoration: none;
-  padding: 12px 8px; min-height: 48px; display: inline-flex; align-items: center;
-}
-.langs a:hover { text-decoration: underline; text-decoration-color: var(--on-primary); }
-.langs a[aria-current="page"] { color: var(--on-primary); font-weight: 600; }
+.langs { display: flex; gap: 4px; margin-right: -8px; font-weight: 500; font-size: 1rem; }
+.langs a { display: inline-flex; align-items: center; min-height: 48px; padding-inline: 8px; text-decoration-line: none; }
+.langs a:hover, .langs a[aria-current="page"] { text-decoration-line: underline; }
 
-.hero { padding-block: 32px 56px; border-radius: 0 0 var(--r-xl) var(--r-xl); }
-.hero-grid { display: grid; gap: 40px; align-items: center; }
-.hero h1 {
-  color: var(--on-primary);
-  font-size: clamp(2.25rem, 1.6rem + 3.2vw, 3.75rem);
-  line-height: 1.08; font-weight: 700; letter-spacing: -0.02em;
-}
-.lede { margin-top: 16px; font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem); line-height: 1.45; max-width: 30ch; }
+.hero { position: relative; overflow: hidden; padding-bottom: 40px; }
+.hero-grid { position: relative; z-index: 2; display: grid; gap: 48px; padding-top: 32px; }
+.hero h1 { font-size: clamp(3.5rem, 8vw, 6.5rem); line-height: 0.98; font-weight: 700; letter-spacing: -0.02em; }
+.lede { margin-top: 24px; font-size: 1.25rem; line-height: 1.45; max-width: 30ch; }
+
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 32px; }
+.cta-invite { display: inline-flex; align-items: center; min-height: 48px; font-weight: 500; }
 
 /* Google Play badge. The official files are 646 × 250 with a transparent margin that differs:
    EN has a 168-tall badge with 41 on every side; DE and PL have a 192-tall badge with 29 above and
    below and 0 at the sides. Scale so the visible badge is --badge-h tall, then pull the margin in,
    so the link box is exactly the visible badge. */
-.play { display: inline-block; margin-top: 32px; color: var(--on-primary); }
+.play { display: inline-block; }
 .play img {
   --badge-h: 60px;
   --file-px: calc(var(--badge-h) / 192);   /* one file pixel on screen */
@@ -123,67 +98,133 @@ html:lang(en) .play img {
   margin: calc(-41 * var(--file-px));
 }
 
-/* ---------- Sections ---------- */
-.section { padding-block: 64px; }
+.phones { display: flex; align-items: flex-end; justify-content: flex-end; gap: 20px; }
+.phone {
+  flex: none; width: min(240px, 62vw); overflow: hidden;
+  border: 8px solid var(--night); border-radius: 40px; background: var(--page);
+  box-shadow: 0 24px 48px rgb(28 27 31 / 0.28);
+}
+.phone img { width: 100%; }
+.phone-a { transform: rotate(-3deg); }
+.phone-b { display: none; transform: rotate(2deg); }
+
+/* The landscape. Below 1112 px it is a fixed drawing pulled left, so the tree stays in view, and the
+   sun moves next to the tree (the phones would cover it). */
+.landscape { position: absolute; z-index: 1; left: -140px; bottom: -1px; width: 1080px; max-width: none; height: var(--land-h); }
+.sun { fill: var(--amber); transform: translateX(-263px); }
+.hill-far { fill: var(--hill-far); }
+.hill-mid { fill: var(--hill-mid); }
+.tree { fill: var(--tree); }
+.heather { fill: var(--heather); opacity: 0.7; transform: translateX(90px); }
+.ground { fill: var(--ground); }
+
+/* ---------- How it works: on the heath ground ---------- */
+.how { position: relative; background: var(--ground); color: var(--on-ground); padding-block: 56px 88px; }
+.section-title { font-size: clamp(2.125rem, 1.6rem + 2.2vw, 2.75rem); line-height: 1.1; font-weight: 700; }
+.how .section-title, .how h3 { color: var(--amber); }
+.rows { display: grid; gap: 88px; margin-top: 56px; }
+.row { display: grid; gap: 32px; }
+.row h3 { font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.25rem); line-height: 1.15; font-weight: 700; }
+.row p { margin-top: 16px; font-size: clamp(1.125rem, 1rem + 0.6vw, 1.3125rem); max-width: 32ch; }
+
+.phone-crop {
+  width: min(300px, 100%); overflow: hidden;
+  border: 8px solid var(--night); border-bottom: 0; border-radius: 40px 40px 0 0; background: var(--page);
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 96px), transparent);
+  mask-image: linear-gradient(#000 calc(100% - 96px), transparent);
+}
+.phone-crop img { width: 100%; }
+.has-detail { position: relative; width: min(340px, 100%); padding: 0 40px 40px 0; }
+.shop-bar {
+  position: absolute; right: 0; bottom: 64px; width: min(300px, 100%);
+  border: 2px solid var(--amber); border-radius: 16px; box-shadow: 0 16px 36px rgb(0 0 0 / 0.35);
+}
+
+/* ---------- Why / Privacy / Invite: heading left, text right ---------- */
+.section { padding-block: 80px; }
 .section-surface { background: var(--surface); }
+.split { display: grid; gap: 28px; }
 
-/* Section headings (every section except the hero) */
-.section-title {
-  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
-  line-height: 1.2; font-weight: 700; letter-spacing: -0.01em;
-  margin-bottom: 24px;
+.story { display: grid; gap: 20px; font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem); }
+.closing { font-weight: 600; }
+
+.items { display: grid; gap: 10px; }
+.items li {
+  display: flex; align-items: center; gap: 18px;
+  padding: 18px 22px; border-radius: 14px; background: var(--page);
+  font-size: 1.1875rem; line-height: 1.35; font-weight: 500;
 }
-#how .section-title { text-align: center; margin-bottom: 40px; }
-.press-row .section-title { grid-column: 1 / -1; margin-bottom: 0; }
+.ring, .tick { flex: none; width: 22px; height: 22px; border-radius: 50%; }
+.ring { border: 1.5px solid #9E9E9EB3; }
+.tick { display: grid; place-items: center; background: var(--ground); }
+.tick path { fill: none; stroke: var(--amber); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.group-label { padding: 32px 4px 14px; font-size: 0.9375rem; line-height: 1.3; font-weight: 600; }
+.crossed li { background: var(--item-done); }
+.crossed s { text-decoration-thickness: 2px; }
+.note { margin-top: 32px; font-size: 1.125rem; }
 
-/* How it works */
-.features { list-style: none; padding: 0; display: grid; gap: 56px; }
-.feature { display: grid; gap: 24px; justify-items: center; text-align: center; }
-.feature h3 { font-size: 1.375rem; line-height: 1.27; font-weight: 600; }
-.feature p { margin-top: 8px; color: var(--ink-muted); max-width: 32ch; margin-inline: auto; font-size: 1.0625rem; }
+.invite-text { font-size: clamp(1.1875rem, 1.1rem + 0.5vw, 1.375rem); }
 
-/* Why */
-.story { font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem); line-height: 1.6; }
+/* ---------- Press + footer: the heath after sunset ---------- */
+.press, .foot { background: var(--night); color: var(--on-night); }
+.press { position: relative; overflow: hidden; margin-top: -1px; padding-block: calc(var(--night-h) + 28px) 72px; }
+.press .section-title { color: var(--amber); }
+.press-text { font-size: 1.1875rem; line-height: 1.55; }
+.press-text p + p { margin-top: 16px; }
+.press a, .foot a { color: var(--on-ground); }
 
-/* Invite */
-.invite-card {
-  border: 1px solid var(--outline); border-radius: var(--r-l);
-  padding: 24px; font-size: 1.125rem; line-height: 1.55;
-}
+.night-heath { position: absolute; left: -140px; top: 0; width: 1080px; max-width: none; height: var(--night-h); }
+.day-edge { fill: var(--page); }
+.moon { fill: var(--moon); transform: translateX(-580px); }
+.hill-night { fill: var(--hill-night); }
+.tree-night { fill: var(--tree-night); }
 
-/* Privacy */
-.facts { list-style: none; padding: 0; display: grid; gap: 16px; font-size: 1.0625rem; }
-.facts li { position: relative; padding-left: 28px; }
-.facts li::before {
-  content: ""; position: absolute; left: 4px; top: 0.6em;
-  width: 10px; height: 10px; border-radius: 50%; background: var(--on-primary);
-}
-.policy { margin-top: 24px; font-weight: 600; }
-
-/* Press */
-.press-row { display: grid; gap: 20px; align-items: start; }
-.press-icon { width: 96px; height: 96px; border-radius: 22px; }
-.press-row p + p { margin-top: 12px; color: var(--ink-muted); }
-
-/* Footer */
-.foot { background: var(--primary); color: var(--on-primary-body); padding-block: 32px; font-size: 0.9375rem; }
-.foot .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
-.foot a { padding-block: 12px; }
+.foot { padding-bottom: 40px; font-size: 0.9375rem; }
+.foot-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; border-top: 1px solid var(--night-line); padding-top: 16px; }
+.foot a { display: inline-block; padding-block: 12px; }
 .foot-item { white-space: nowrap; }
-.sep { color: var(--on-primary); }
+.sep { color: var(--amber); }
 
 /* ---------- Wider screens ---------- */
-@media (min-width: 600px) {
-  :root { --gutter: 24px; }
-  .invite-card { padding: 32px 40px; }
-  .press-row { grid-template-columns: auto 1fr; gap: 28px; }
+@media (min-width: 641px) {
+  :root { --gutter: 32px; --land-h: 320px; --night-h: 180px; }
+  .top-row { padding-block: 20px; }
+  .langs { gap: 4px; }
+  .hero { padding-bottom: 60px; }
+  .hero-grid { gap: 88px; }
+  .lede { margin-top: 28px; font-size: 1.375rem; }
+  .cta { margin-top: 40px; }
+  .phone { width: min(260px, 30vw); }
+  .phone-a { transform: translateY(-40px) rotate(-3deg); }
+  .phone-b { display: block; }
+  .landscape, .night-heath { left: -150px; width: 1440px; }
+  .sun { transform: translateX(-230px); }
+  .moon { transform: translateX(-470px); }
+
+  .how { padding-block: 72px 120px; }
+  .rows { gap: 112px; margin-top: 112px; }
+  .row { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: clamp(32px, 6vw, 72px); }
+  .row:nth-child(even) { grid-template-columns: minmax(0, 1fr) auto; }
+  .row:nth-child(even) .row-shot { order: 1; }
+  .phone-crop { width: clamp(240px, 36vw, 300px); }
+  .has-detail { width: auto; }
+
+  .section { padding-block: 112px; }
+  .foot { padding-bottom: 56px; }
 }
 
 @media (min-width: 900px) {
-  .hero { padding-block: 48px 88px; }
-  .hero-grid { grid-template-columns: 1.1fr 0.9fr; gap: 56px; }
-  .section { padding-block: 96px; }
-  /* Subgrid: the three text blocks share one row height, so the phone frames line up. */
-  .features { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto; column-gap: 40px; row-gap: 32px; }
-  .feature { grid-row: span 2; grid-template-rows: subgrid; align-items: start; }
+  .split { grid-template-columns: 260px minmax(0, 1fr); column-gap: 96px; }
+}
+
+@media (min-width: 1112px) {
+  :root { --land-h: max(320px, 22.2222vw); --night-h: max(180px, 12.5vw); --hero-pb: calc(var(--land-h) - 120px); }
+  .hero { padding-bottom: var(--hero-pb); }
+  .hero-grid { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; padding-top: 48px; }
+  .hero-text { padding-bottom: 120px; }
+  .phone { width: 260px; }
+  .phones { margin-bottom: calc(50px - var(--hero-pb)); }
+  .landscape, .night-heath { left: 0; width: 100%; }
+  .sun, .moon, .heather { transform: none; }
+  #why.section { padding-block: 128px; }
 }

@@ -5,7 +5,7 @@ no JavaScript, no cookies, no analytics, nothing loaded from other servers. Rule
 in `CLAUDE.md`.
 
 Everything that is served lives in `site/`. The rest of the repo (`CLAUDE.md`, `README.md`,
-`netlify.toml`, `scripts/`) is never published.
+`netlify.toml`, `design/`, `scripts/`) is never published.
 
 | Language | URL | File |
 |---|---|---|
@@ -13,8 +13,8 @@ Everything that is served lives in `site/`. The rest of the repo (`CLAUDE.md`, `
 | German | `/de/` | `site/de/index.html` |
 | Polish | `/pl/` | `site/pl/index.html` |
 
-The Polish text has been reviewed by the Polish reviewer. Any future change to it goes to the
-Polish reviewer before it ships.
+The Polish text has been reviewed by the Polish reviewer, except the strings under "Open reviews".
+Any future change to it goes to the Polish reviewer before it ships.
 
 ## Deploy
 
@@ -55,20 +55,41 @@ Still to shoot, with no page slot yet: the **notification shot** (partner's push
 notification shade). It needs a second phone; see
 `ShoppingApp/docs/screens/marketing-2026-11/review.json`, item 4.
 
-## Screenshots (temporary)
+## Open reviews
 
-`site/assets/screens/{en,de,pl}/` holds the raw marketing shots from
-`ShoppingApp/docs/screens/marketing-2026-11/{en,de,pl}/raw/`, converted to WebP. They stand in until
-the framed images from Claude Design arrive.
+Draft strings are live in the HTML, each marked with a `<!-- draft, needs review: … -->` comment and
+counted in `REVIEWS` in `scripts/check.py`. After a review, fix the string, delete its comment and
+lower the count.
 
-| File | Size | Used for |
-|---|---|---|
-| `sync.webp`, `add.webp`, `shops.webp` | 1080 × 2400 (frame is 9:20) | The three how-it-works items, in that order |
-| `hero.webp` | 1200 × 1200 (frame is 1:1) | Hero; for now the sync shot scaled to 540 × 1200 with rounded corners, centred on a transparent canvas |
+| Language | Where | String | Reviewer |
+|---|---|---|---|
+| DE | Privacy, group label and items | "Gestrichen" · "Werbung" · "Analyse-Tools" · "Tracking-Tools" | the developer |
+| DE | Shop bar alt text | "Die Shop-Leiste unten in der App, Supermarkt ausgewählt" | the developer |
+| PL | Privacy, group label and items | "Skreślone" · "Reklamy" · "Analityka" · "Narzędzia śledzące" | the Polish reviewer |
+| PL | Shop bar alt text | "Pasek sklepów na dole aplikacji, wybrany Supermarket" | the Polish reviewer |
 
-To replace them, keep the file names, or update the `src` in all three pages. The alt texts are
-final copy from the Calluna project chat; change them only if the new image shows something
-different. `check.py` fails on any image in `site/` over 250 KB.
+## Design
+
+`design/DESIGN.md` describes the approved direction ("heath at low sun"). `design/renders/` holds
+renders of each language at 390 and 1280 px. Nothing in `design/` is served.
+
+The font is Hanken Grotesk (400/500/600/700), self-hosted in `site/assets/fonts/` with its licence
+(`OFL.txt`). The files are TTF copies from `ShoppingApp/app/src/main/res/font/`.
+
+## Screenshots
+
+`site/assets/screens/{en,de,pl}/` holds WebP versions of the marketing shots from
+`ShoppingApp/docs/screens/marketing-2026-11/{en,de,pl}/raw/` (1080 × 2400).
+
+| File | Size | Made from | Used for |
+|---|---|---|---|
+| `hero.webp` | 720 × 1600 | `sync.png`, whole | Both hero phones |
+| `sync.webp`, `add.webp`, `shops.webp` | 720 × 1000 | Top 1500 px of each shot | The three how-it-works rows, in that order |
+| `shop-bar.webp` | 740 × 148 | `shops.png`, x 170–910, y 2172–2320 | The enlarged shop bar in row 3 |
+
+The alt texts are final copy from the Calluna project chat, except the shop bar's in DE and PL (see
+"Open reviews"); change them only if the new image shows something different. `check.py` fails on
+any image in `site/` over 250 KB.
 
 The app icon (`site/assets/icons/calluna-512.png` and its 180/64/32 px versions) comes from
 `ShoppingApp/app/src/main/ic_launcher-playstore.png`.

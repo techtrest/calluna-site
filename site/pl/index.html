@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calluna – Po prostu wasza lista.</title>
 <meta name="description" content="Spokojna, wspólna lista zakupów dla dwojga. Bez reklam, bez gazetek, bez śledzenia.">
-<meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#2E3A30">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#FBEBC8">
 <link rel="canonical" href="https://callunalist.app/pl/">
 <link rel="alternate" hreflang="en" href="https://callunalist.app/">
 <link rel="alternate" hreflang="de" href="https://callunalist.app/de/">
@@ -49,88 +49,117 @@
       <div class="hero-text">
         <h1>Po prostu wasza lista.</h1>
         <p class="lede">Spokojna, wspólna lista zakupów dla dwojga. Bez reklam, bez gazetek, bez śledzenia.</p>
-        <a class="play" href="https://play.google.com/store/apps/details?id=com.techtresthome.shoppingapp">
-          <!-- Official Google Play badge (pl). The file has a transparent margin; CSS compensates for it. -->
-          <img src="/assets/badges/google-play-pl.png" width="646" height="250" alt="Pobierz z Google Play">
-        </a>
+        <div class="cta">
+          <a class="play" href="https://play.google.com/store/apps/details?id=com.techtresthome.shoppingapp">
+            <!-- Official Google Play badge (pl). The file has a transparent margin; CSS compensates for it. -->
+            <img src="/assets/badges/google-play-pl.png" width="646" height="250" alt="Pobierz z Google Play">
+          </a>
+          <a class="cta-invite" href="#invite">Masz zaproszenie?</a>
+        </div>
       </div>
-      <figure class="shot shot-hero">
-        <!-- Temporary: the raw sync shot centred on 1200 × 1200; the two-phone image from Claude Design replaces it. -->
-        <img src="/assets/screens/pl/hero.webp" width="1200" height="1200" alt="Wspólna lista zakupów w Callunie: osiem produktów, jeden odhaczony" fetchpriority="high">
-      </figure>
+      <div class="phones">
+        <div class="phone phone-a"><img src="/assets/screens/pl/hero.webp" width="720" height="1600" alt="Wspólna lista zakupów w Callunie: osiem produktów, jeden odhaczony" fetchpriority="high"></div>
+        <div class="phone phone-b"><img src="/assets/screens/pl/hero.webp" width="720" height="1600" alt=""></div>
+      </div>
     </div>
+    <svg class="landscape" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <circle class="sun" cx="610" cy="150" r="58"/>
+      <path class="hill-far" d="M0 175C240 120 500 128 760 158C1000 186 1220 130 1440 148V320H0Z"/>
+      <path class="hill-mid" d="M0 232C300 178 560 196 820 222C1080 248 1260 198 1440 212V320H0Z"/>
+      <path class="tree" d="M262 96C248 130 246 168 252 196H272C278 168 276 130 262 96Z"/>
+      <path class="tree" d="M259 194h6v12h-6Z"/>
+      <g class="heather">
+        <circle cx="120" cy="226" r="3"/><circle cx="160" cy="220" r="2.5"/><circle cx="410" cy="212" r="3"/>
+        <circle cx="455" cy="216" r="2"/><circle cx="640" cy="219" r="3"/><circle cx="700" cy="224" r="2.5"/>
+        <circle cx="980" cy="236" r="3"/><circle cx="1180" cy="222" r="2.5"/><circle cx="1330" cy="214" r="3"/>
+      </g>
+      <path class="ground" d="M0 286C420 254 900 262 1440 276V320H0Z"/>
+    </svg>
   </section>
 
-  <section id="how" aria-labelledby="how-title" class="section">
+  <section id="how" aria-labelledby="how-title" class="how">
     <div class="wrap">
       <h2 class="section-title" id="how-title">Jak to działa</h2>
-      <ul class="features">
-        <li class="feature">
-          <div class="feature-text">
+      <ul class="rows" role="list">
+        <li class="row">
+          <figure class="row-shot">
+            <div class="phone-crop"><img src="/assets/screens/pl/sync.webp" width="720" height="1000" alt="Wspólna lista zakupów w Callunie: osiem produktów, jeden odhaczony" loading="lazy" decoding="async"></div>
+          </figure>
+          <div class="row-text">
             <h3>Od razu wiesz, gdy drugiej osobie coś przyjdzie do głowy.</h3>
             <p>Dodaj mleko na swoim telefonie – sekundę później pojawi się na drugim.</p>
           </div>
-          <figure class="shot shot-phone">
-            <!-- Temporary raw screenshot; the framed image from Claude Design replaces it. -->
-            <img src="/assets/screens/pl/sync.webp" width="1080" height="2400" alt="Wspólna lista zakupów w Callunie: osiem produktów, jeden odhaczony" loading="lazy" decoding="async">
-          </figure>
         </li>
-        <li class="feature">
-          <div class="feature-text">
+        <li class="row">
+          <figure class="row-shot">
+            <div class="phone-crop"><img src="/assets/screens/pl/add.webp" width="720" height="1000" alt="Dodawanie truskawek: Calluna podpowiada produkt z emoji" loading="lazy" decoding="async"></div>
+          </figure>
+          <div class="row-text">
             <h3>Dodaj to w mgnieniu oka.</h3>
             <p>Wpisz lub powiedz, a Calluna umieści to w odpowiedniej kategorii.</p>
           </div>
-          <figure class="shot shot-phone">
-            <!-- Temporary raw screenshot; the framed image from Claude Design replaces it. -->
-            <img src="/assets/screens/pl/add.webp" width="1080" height="2400" alt="Dodawanie truskawek: Calluna podpowiada produkt z emoji" loading="lazy" decoding="async">
-          </figure>
         </li>
-        <li class="feature">
-          <div class="feature-text">
+        <li class="row">
+          <figure class="row-shot has-detail">
+            <div class="phone-crop"><img src="/assets/screens/pl/shops.webp" width="720" height="1000" alt="Lista przefiltrowana do supermarketu: tylko to, czego stamtąd potrzebujesz" loading="lazy" decoding="async"></div>
+            <!-- draft, needs review: alt text of the shop bar -->
+            <img class="shop-bar" src="/assets/screens/pl/shop-bar.webp" width="740" height="148" alt="Pasek sklepów na dole aplikacji, wybrany Supermarket" loading="lazy" decoding="async">
+          </figure>
+          <div class="row-text">
             <h3>Wiesz, co i gdzie kupić.</h3>
             <p>Przypisz produkty do sklepu, a zobaczysz tylko to, czego stamtąd potrzebujesz.</p>
           </div>
-          <figure class="shot shot-phone">
-            <!-- Temporary raw screenshot; the framed image from Claude Design replaces it. -->
-            <img src="/assets/screens/pl/shops.webp" width="1080" height="2400" alt="Lista przefiltrowana do supermarketu: tylko to, czego stamtąd potrzebujesz" loading="lazy" decoding="async">
-          </figure>
         </li>
       </ul>
     </div>
   </section>
 
-  <section id="why" aria-labelledby="why-title" class="section section-surface">
-    <div class="wrap narrow">
+  <section id="why" aria-labelledby="why-title" class="section">
+    <div class="wrap split">
       <h2 class="section-title" id="why-title">Dlaczego Calluna</h2>
-      <p class="story">Calluna została stworzona przez niemieckiego programistę, który jest żonaty i mieszka w Polsce. Każda aplikacja z listą zakupów, którą oboje wypróbowali, zamieniała się w coś zupełnie innego: promocje, gazetki, przepisy, reklamy w samej liście. Dlatego zbudował taką, jakiej chcieli: tylko ich dwoje i rzeczy, których potrzebują.</p>
-    </div>
-  </section>
-
-  <section id="invite" aria-labelledby="invite-title" class="section">
-    <div class="wrap narrow">
-      <h2 class="section-title" id="invite-title">Masz zaproszenie?</h2>
-      <p class="invite-card">Zainstaluj Callunę z <a href="https://play.google.com/store/apps/details?id=com.techtresthome.shoppingapp">Google Play</a>, a następnie otwórz otrzymany link z zaproszeniem lub wpisz kod. Od razu znajdziesz się na tej samej liście.</p>
+      <div class="story">
+        <p>Calluna została stworzona przez niemieckiego programistę, który jest żonaty i mieszka w Polsce. Każda aplikacja z listą zakupów, którą oboje wypróbowali, zamieniała się w coś zupełnie innego: promocje, gazetki, przepisy, reklamy w samej liście. Dlatego zbudował taką, jakiej chcieli: tylko ich dwoje i rzeczy, których potrzebują.</p>
+      </div>
     </div>
   </section>
 
   <section id="privacy" aria-labelledby="privacy-title" class="section section-surface">
-    <div class="wrap narrow">
+    <div class="wrap split">
       <h2 class="section-title" id="privacy-title">Prywatność w prostych słowach</h2>
-      <ul class="facts">
-          <li>Twoje listy są przechowywane na serwerze Hetzner w Niemczech, którym sami zarządzamy.</li>
-          <li>W aplikacji nie ma reklam, narzędzi analitycznych ani narzędzi śledzących.</li>
-          <li>W każdej chwili możesz samodzielnie wyeksportować lub usunąć wszystkie dane w aplikacji.</li>
-          <li>Szczerze mówiąc: Twoje listy są szyfrowane podczas przesyłania na serwer, ale nie są szyfrowane end-to-end.</li>
-      </ul>
-      <p class="policy"><a href="https://techtrest.github.io/qiklist-privacy/" hreflang="en">Przeczytaj politykę prywatności (w języku angielskim)</a></p>
+      <div>
+        <ul class="items facts" role="list">
+          <li><span class="ring"></span>Twoje listy są przechowywane na serwerze Hetzner w Niemczech, którym sami zarządzamy.</li>
+          <li><span class="ring"></span>W każdej chwili możesz samodzielnie wyeksportować lub usunąć wszystkie dane w aplikacji.</li>
+        </ul>
+        <!-- draft, needs review: the group label and the three crossed-off items -->
+        <p class="group-label" id="crossed-title">Skreślone</p>
+        <ul class="items crossed" role="list" aria-labelledby="crossed-title">
+          <li><span class="tick"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2 6.2 4.8 9 10 3"/></svg></span><s>Reklamy</s></li>
+          <li><span class="tick"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2 6.2 4.8 9 10 3"/></svg></span><s>Analityka</s></li>
+          <li><span class="tick"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2 6.2 4.8 9 10 3"/></svg></span><s>Narzędzia śledzące</s></li>
+        </ul>
+        <p class="note">Szczerze mówiąc: Twoje listy są szyfrowane podczas przesyłania na serwer, ale nie są szyfrowane end-to-end. <a href="https://techtrest.github.io/qiklist-privacy/" hreflang="en">Przeczytaj politykę prywatności (w języku angielskim)</a></p>
+      </div>
     </div>
   </section>
 
-  <section id="press" aria-labelledby="press-title" class="section">
-    <div class="wrap narrow press-row">
+  <section id="invite" aria-labelledby="invite-title" class="section">
+    <div class="wrap split">
+      <h2 class="section-title" id="invite-title">Masz zaproszenie?</h2>
+      <p class="invite-text">Zainstaluj Callunę z <a href="https://play.google.com/store/apps/details?id=com.techtresthome.shoppingapp">Google Play</a>, a następnie otwórz otrzymany link z zaproszeniem lub wpisz kod. Od razu znajdziesz się na tej samej liście.</p>
+    </div>
+  </section>
+
+  <section id="press" aria-labelledby="press-title" class="press">
+    <svg class="night-heath" viewBox="0 0 1440 180" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
+      <path class="day-edge" d="M0 0H1440V40C1100 90 700 70 380 52C220 44 100 50 0 60Z"/>
+      <circle class="moon" cx="1180" cy="112" r="16"/>
+      <path class="hill-night" d="M0 150C300 120 640 128 960 146C1180 158 1320 140 1440 146V180H0Z"/>
+      <path class="tree-night" d="M262 74C250 104 248 134 253 158H271C276 134 274 104 262 74Z"/>
+    </svg>
+    <div class="wrap split">
       <h2 class="section-title" id="press-title">Dla prasy</h2>
-      <img class="press-icon" src="/assets/icons/calluna-512.png" width="96" height="96" alt="" loading="lazy">
-      <div>
+      <div class="press-text">
         <p>Calluna to wolna od reklam wspólna lista zakupów dla par, stworzona przez niezależnego programistę z Polski.</p>
         <p>Ikona, zrzuty ekranu i kontakt: <!-- SLOT: press kit zip --><a href="/press/calluna-press-kit.zip" data-slot download>Pobierz pakiet prasowy</a> <span class="sep" aria-hidden="true">·</span> <a href="mailto:techtrest@pm.me">techtrest@pm.me</a></p>
       </div>
@@ -141,9 +170,11 @@
 
 <footer class="foot">
   <div class="wrap">
-    <span>Calluna by Techtrest</span>
-    <span class="foot-item"><span class="sep" aria-hidden="true">·</span> <a href="https://techtrest.github.io/qiklist-privacy/" hreflang="en">Polityka prywatności</a></span>
-    <span class="foot-item"><span class="sep" aria-hidden="true">·</span> <a href="mailto:techtrest@pm.me">Kontakt</a></span>
+    <div class="foot-line">
+      <span>Calluna by Techtrest</span>
+      <span class="foot-item"><span class="sep" aria-hidden="true">·</span> <a href="https://techtrest.github.io/qiklist-privacy/" hreflang="en">Polityka prywatności</a></span>
+      <span class="foot-item"><span class="sep" aria-hidden="true">·</span> <a href="mailto:techtrest@pm.me">Kontakt</a></span>
+    </div>
   </div>
 </footer>
 
