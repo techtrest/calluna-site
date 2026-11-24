@@ -18,9 +18,12 @@ Landing page for Calluna (Android shared shopping list), served at https://callu
   structure is made in all three.
 - **PL text has been reviewed by the Polish reviewer.** Any future PL change goes to the Polish
   reviewer before it ships. Never mention the review on the page.
-- **No personal names** in any file in the repo (`scripts/check.py` enforces it).
-- **Copy changes come from the Calluna project chat.** Don't write or "improve" page text here; use
-  the copy you're given verbatim. "Calluna by Techtrest" is the same in all languages.
+- **Personal names:** the developer's first name is allowed in the visible text of the EN and DE
+  pages only (not in markup, comments or any other file, this one included). No other personal names
+  anywhere (`scripts/check.py` enforces it).
+- **Copy:** tone and wording come from the marketing chat; facts about the app are checked in the
+  Calluna project chat; PL text still needs the Polish reviewer. Don't write or "improve" page text
+  here; use the copy you're given verbatim. "Calluna by Techtrest" is the same in all languages.
 - **Design** follows `~/Documents/ShoppingApp/docs/design-tokens.md` (Moor cultivar, light + dark via
   `prefers-color-scheme`). `primary` is a fill, never a text colour. System font stack only.
 - **Open slots** (files that will come later) are marked with `data-slot` in the HTML and listed in
