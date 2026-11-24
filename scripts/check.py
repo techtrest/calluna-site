@@ -5,20 +5,22 @@
 
 Checks:
   1. All three pages have the same sections (by id) in the same order, and the same number of
-     "how it works" items and privacy points.
+     "how it works" rows, privacy facts and crossed-off items.
   2. Every local link and asset path resolves to a file, or to an open slot: the element carries
      `data-slot` AND the path is listed in SLOTS below.
   3. No external URL except play.google.com, techtrest.github.io and mailto:. Absolute
      https://callunalist.app/ URLs (canonical, hreflang, og:*) are the site itself and must resolve
      locally like any other path.
   4. No <script>, no inline <style> or style="", no on*= handlers, no external stylesheet or font
-     (in the HTML or in the CSS).
+     (in the HTML or in the CSS). Every inline <svg> is aria-hidden, every <img> has width, height
+     and alt, and no image in site/ is over MAX_IMAGE_KB.
   5. Nothing outside site/ (the Netlify publish dir) is referenced by the pages or the CSS.
   6. Every section except the hero has its own <h2>.
   7. No personal names in any tracked file. One exception: the developer's first name (VISIBLE_NAME)
      in the visible body text of the pages in VISIBLE_NAME_PAGES, never in their markup.
-Plus: hreflang set complete on every page; no page carries a draft mark (in a comment or in the
-visible text); CSP header present in netlify.toml.
+  8. Draft strings: each one is marked with a "draft, needs review" comment and counted in REVIEWS;
+     no draft mark anywhere else, and none in the visible text.
+Plus: hreflang set complete on every page; CSP header present in netlify.toml.
 
 Exit code 0 = pass, 1 = fail.
 """
@@ -42,6 +44,11 @@ SLOTS = {
     "/assets/og/calluna-og.png",
     "/press/calluna-press-kit.zip",
 }
+
+# Open reviews: number of "draft, needs review" comments per page. Lower the count when a string has
+# been reviewed and its comment is gone (and update "Open reviews" in README.md).
+REVIEWS = {"en": 0, "de": 0, "pl": 3}
+DRAFT_MARK = "draft, needs review"
 
 # Images under site/ must stay small (the screenshots are WebP, ~20-40 KB each).
 MAX_IMAGE_KB = 250
@@ -70,6 +77,7 @@ class Page(HTMLParser):
         self._skip = 0              # inside <head>/<title>/<style>: not visible body text
         self.feature_count = 0
         self.fact_count = 0
+        self.crossed_count = 0
         self._ul = []               # class stack for <ul>
         self.h2_per_section = {}    # section id -> number of <h2> inside it
         self._section = None
@@ -89,10 +97,13 @@ class Page(HTMLParser):
         if tag == "ul":
             self._ul.append(a.get("class", ""))
         if tag == "li" and self._ul:
-            if "features" in self._ul[-1]:
+            classes = self._ul[-1].split()
+            if "rows" in classes:
                 self.feature_count += 1
-            if "facts" in self._ul[-1]:
+            if "facts" in classes:
                 self.fact_count += 1
+            if "crossed" in classes:
+                self.crossed_count += 1
         slot = "data-slot" in a
         for k, v in a.items():
             if v is None:
@@ -221,6 +232,14 @@ def main():
                 err(loc, f"<{t}> is not allowed")
             if "style" in a:
                 err(loc, 'style="" attribute is not allowed (CSP style-src \'self\')')
+            if t == "svg" and a.get("aria-hidden") != "true":
+                err(loc, "inline <svg> needs aria-hidden=\"true\"")
+            if t == "img":
+                for k in ("width", "height"):
+                    if not (a.get(k) or "").isdigit():
+                        err(loc, f"<img> needs a numeric {k}: {a.get('src')}")
+                if "alt" not in a:
+                    err(loc, f"<img> needs an alt: {a.get('src')}")
             for k in a:
                 if k.startswith("on"):
                     err(loc, f"event handler attribute {k}= is not allowed")
@@ -233,12 +252,16 @@ def main():
         for url, slot, line in p.urls:
             check_url(rel, url, slot, line, URL_PATHS[lang])
 
-        # Review notes never reach the page; PL is reviewed, so no draft comment either.
+        # Review notes never reach the visible page; draft comments only where REVIEWS expects them.
         visible = " ".join(p.text)
         if re.search(r"draft|entwurf|szkic", visible, re.I):
             err(rel, "visible text mentions a draft")
-        if any(re.search(r"draft", c, re.I) for c in p.comments):
-            err(rel, "draft comment still present")
+        drafts = [c.strip() for c in p.comments if re.search(r"draft", c, re.I)]
+        for c in drafts:
+            if not c.startswith(DRAFT_MARK):
+                err(rel, f'draft comment must start with "{DRAFT_MARK}": {c}')
+        if len(drafts) != REVIEWS[lang]:
+            err(rel, f"{len(drafts)} draft comments, REVIEWS says {REVIEWS[lang]}")
 
         # 6. headings: h1 in the hero, one h2 in every other section
         if sum(1 for t, _, _ in p.tags if t == "h1") != 1:
@@ -256,20 +279,24 @@ def main():
             if p.sections != ref.sections:
                 err(f"site/{PAGES[lang]}", f"sections {p.sections} != EN {ref.sections}")
             if p.feature_count != ref.feature_count:
-                err(f"site/{PAGES[lang]}", f"{p.feature_count} how-it-works items, EN has {ref.feature_count}")
+                err(f"site/{PAGES[lang]}", f"{p.feature_count} how-it-works rows, EN has {ref.feature_count}")
             if p.fact_count != ref.fact_count:
-                err(f"site/{PAGES[lang]}", f"{p.fact_count} privacy points, EN has {ref.fact_count}")
+                err(f"site/{PAGES[lang]}", f"{p.fact_count} privacy facts, EN has {ref.fact_count}")
+            if p.crossed_count != ref.crossed_count:
+                err(f"site/{PAGES[lang]}", f"{p.crossed_count} crossed-off items, EN has {ref.crossed_count}")
+        for what, n in (("how-it-works rows", ref.feature_count), ("privacy facts", ref.fact_count),
+                        ("crossed-off items", ref.crossed_count)):
+            if not n:
+                err("site/index.html", f"no {what} found")
         if not ref.sections:
             err("site/index.html", "no <section>s found")
 
-    # CSS: no external url(), @import or fonts
+    # CSS: no @import; url() only for local files (this covers @font-face too)
     for css in SITE.rglob("*.css"):
         rel = css.relative_to(SITE)
         src = re.sub(r"/\*.*?\*/", "", css.read_text(encoding="utf-8"), flags=re.S)
         if re.search(r"@import", src):
             err(str(rel), "@import is not allowed")
-        if re.search(r"@font-face", src):
-            err(str(rel), "@font-face is not allowed (system fonts only)")
         for m in re.finditer(r"url\(\s*['\"]?([^'\")]+)", src):
             u = m.group(1)
             if urlsplit(u).scheme or u.startswith("//"):
@@ -322,6 +349,7 @@ def main():
     print(f"Open slots ({len(open_slots)}):")
     for s in open_slots:
         print(f"  {s}")
+    print(f"Open reviews: {', '.join(f'{l} {n}' for l, n in REVIEWS.items() if n) or 'none'}")
     if errors:
         print(f"\nFAIL ({len(errors)}):")
         for e in errors:

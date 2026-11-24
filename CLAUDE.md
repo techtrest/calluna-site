@@ -24,8 +24,8 @@ Landing page for Calluna (Android shared shopping list), served at https://callu
 - **Copy:** tone and wording come from the marketing chat; facts about the app are checked in the
   Calluna project chat; PL text still needs the Polish reviewer. Don't write or "improve" page text
   here; use the copy you're given verbatim. "Calluna by Techtrest" is the same in all languages.
-- **Design** follows `~/Documents/ShoppingApp/docs/design-tokens.md` (Moor cultivar, light + dark via
-  `prefers-color-scheme`). `primary` is a fill, never a text colour. System font stack only.
+- **Design** follows `design/DESIGN.md` ("heath at low sun", approved 2026-11-24): one fixed day-to-night
+  look, no dark mode, self-hosted Hanken Grotesk. Amber is a text colour on the dark grounds only.
 - **Open slots** (files that will come later) are marked with `data-slot` in the HTML and listed in
   `SLOTS` in `scripts/check.py` and in `README.md`. When a file lands, keep the path and remove the
   path from `SLOTS`.
