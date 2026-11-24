@@ -107,9 +107,21 @@ a:hover { text-decoration-thickness: 3px; }
 }
 .lede { margin-top: 16px; font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem); line-height: 1.45; max-width: 30ch; }
 
-/* Google Play badge slot: height fixed, width follows the official badge. */
-.play { display: inline-block; margin-top: 32px; min-height: 56px; color: var(--on-primary); }
-.play img { height: 56px; width: auto; }
+/* Google Play badge. The official files are 646 × 250 with a transparent margin that differs:
+   EN has a 168-tall badge with 41 on every side; DE and PL have a 192-tall badge with 29 above and
+   below and 0 at the sides. Scale so the visible badge is --badge-h tall, then pull the margin in,
+   so the link box is exactly the visible badge. */
+.play { display: inline-block; margin-top: 32px; color: var(--on-primary); }
+.play img {
+  --badge-h: 60px;
+  --file-px: calc(var(--badge-h) / 192);   /* one file pixel on screen */
+  height: calc(250 * var(--file-px)); width: auto; max-width: none;
+  margin: calc(-29 * var(--file-px)) 0;
+}
+html:lang(en) .play img {
+  --file-px: calc(var(--badge-h) / 168);
+  margin: calc(-41 * var(--file-px));
+}
 
 /* ---------- Sections ---------- */
 .section { padding-block: 64px; }

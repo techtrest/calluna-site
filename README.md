@@ -48,7 +48,6 @@ lands, `check.py` fails.
 
 | Slot | Path | Size / notes |
 |---|---|---|
-| Google Play badge ×3 | `site/assets/badges/google-play-{en,de,pl}.png` | Google's official localized badges. Shown at 56 px tall, width follows the file. Already linked to the Play listing. |
 | Open Graph image | `site/assets/og/calluna-og.png` | 1200 × 630, shared by all three languages. |
 | Press kit | `site/press/calluna-press-kit.zip` | Linked from the press section in all three languages. |
 

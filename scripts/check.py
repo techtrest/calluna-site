@@ -41,7 +41,6 @@ URL_PATHS = {"en": "/", "de": "/de/", "pl": "/pl/"}
 SLOTS = {
     "/assets/og/calluna-og.png",
     "/press/calluna-press-kit.zip",
-    *(f"/assets/badges/google-play-{l}.png" for l in PAGES),
 }
 
 # Images under site/ must stay small (the screenshots are WebP, ~20-40 KB each).
