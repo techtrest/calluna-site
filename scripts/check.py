@@ -47,7 +47,7 @@ SLOTS = {
 
 # Open reviews: number of "draft, needs review" comments per page. Lower the count when a string has
 # been reviewed and its comment is gone (and update "Open reviews" in README.md).
-REVIEWS = {"en": 0, "de": 0, "pl": 3}
+REVIEWS = {"en": 0, "de": 0, "pl": 2}
 DRAFT_MARK = "draft, needs review"
 
 # Images under site/ must stay small (the screenshots are WebP, ~20-40 KB each).
@@ -58,9 +58,9 @@ IMAGE_EXT = {".webp", ".png", ".jpg", ".jpeg", ".avif", ".gif", ".svg"}
 # trip its own check (and so `git grep` for them stays empty).
 NAMES = ["Mon" + "ika", "Oli" + "ver"]
 NAMES_RE = re.compile("|".join(NAMES), re.I)
-# Allowed in the visible text of these two pages only: the story there is told in the first person.
+# Allowed in the visible text of these three pages only: the story there is told in the first person.
 VISIBLE_NAME = NAMES[1]
-VISIBLE_NAME_PAGES = {SITE / PAGES["en"], SITE / PAGES["de"]}
+VISIBLE_NAME_PAGES = {SITE / PAGES["en"], SITE / PAGES["de"], SITE / PAGES["pl"]}
 
 URL_ATTRS = {"href", "src", "srcset", "poster", "action", "data", "formaction"}
 URL_META = {"og:image", "og:url", "og:image:url", "og:image:secure_url", "twitter:image"}

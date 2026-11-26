@@ -18,7 +18,7 @@ Landing page for Calluna (Android shared shopping list), served at https://callu
   structure is made in all three.
 - **PL text has been reviewed by the Polish reviewer.** Any future PL change goes to the Polish
   reviewer before it ships. Never mention the review on the page.
-- **Personal names:** the developer's first name is allowed in the visible text of the EN and DE
+- **Personal names:** the developer's first name is allowed in the visible text of the EN, DE and PL
   pages only (not in markup, comments or any other file, this one included). No other personal names
   anywhere (`scripts/check.py` enforces it).
 - **Copy:** tone and wording come from the marketing chat; facts about the app are checked in the

@@ -63,7 +63,6 @@ lower the count.
 
 | Language | Where | String | Reviewer |
 |---|---|---|---|
-| PL | Privacy, group label and items | "Skreślone" · "Reklamy" · "Analityka" · "Narzędzia śledzące" | the Polish reviewer |
 | PL | First how-it-works row, alt text (shortened) | "Wspólna lista zakupów w Callunie: osiem produktów" | the Polish reviewer |
 | PL | Shop bar alt text | "Pasek sklepów na dole aplikacji, wybrany Supermarket" | the Polish reviewer |
 
